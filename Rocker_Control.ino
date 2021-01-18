@@ -15,20 +15,12 @@
 #define TRIG_PIN A5
 
 /*Motor Drive Interface*/
-#define ENA 5
-#define ENB 6
-#define IN1 7
-#define IN2 8
-#define IN3 9
-#define IN4 11
-
-/*Driving Interface for Infrared Pipeline Patrol*/
-#define LineTeacking_Pin_Right 10
-#define LineTeacking_Pin_Middle 4
-#define LineTeacking_Pin_Left 2
-#define LineTeacking_Read_Right !digitalRead(10)
-#define LineTeacking_Read_Middle !digitalRead(4)
-#define LineTeacking_Read_Left !digitalRead(2)
+#define ENA 5  // Left power
+#define ENB 6  // Right power
+#define IN1 7  // Rigth rear
+#define IN2 8  // Right front
+#define IN3 9  // Left front
+#define IN4 11 // Left rear
 
 #define carSpeed 180 //PWM(That is: motor speed/vehicle speed)
 
@@ -85,6 +77,7 @@ unsigned int getDistance(void)
   }
   return tempda;
 }
+
 /*Control motor: */
 void forward(bool debug, int16_t in_carSpeed)
 {
@@ -119,7 +112,6 @@ void left(bool debug, int16_t in_carSpeed)
   analogWrite(ENB, 250);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
-
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
   if (debug)
@@ -145,9 +137,7 @@ void stop(bool debug = false)
   if (debug)
     Serial.println("Stop!");
 }
-/*
-  Bluetooth serial port data acquisition and control command parsing
-*/
+/*Bluetooth serial port data acquisition and control command parsing*/
 void getBTData_Plus(void)
 {
   String comdata = "";
