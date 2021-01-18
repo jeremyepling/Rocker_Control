@@ -255,45 +255,6 @@ void bluetooth_mode()
     }
   }
 }
-/*
-  Line Teacking Mode
-*/
-void line_teacking_mode(void)
-{
-  if (func_mode == LineTeacking)
-  {
-    if (LineTeacking_Read_Middle)
-    {                           //Detecting in the middle infrared tube
-      forward(false, carSpeed); //Control motor：the car moving forward
-      LT_PreMillis = millis();
-    }
-    else if (LineTeacking_Read_Right)
-    {                         //Detecting in the right infrared tube
-      right(false, carSpeed); //Control motor：the car moving right
-      while (LineTeacking_Read_Right)
-      {
-        getBTData_Plus(); //Bluetooth data acquisition
-      }
-      LT_PreMillis = millis();
-    }
-    else if (LineTeacking_Read_Left)
-    {                        //Detecting in the left infrared tube
-      left(false, carSpeed); //Control motor：the car moving left
-      while (LineTeacking_Read_Left)
-      {
-        getBTData_Plus(); //Bluetooth data acquisition
-      }
-      LT_PreMillis = millis();
-    }
-    else
-    {
-      if (millis() - LT_PreMillis > 150)
-      {
-        stop(); //Stop motor control：Turn off motor drive mode
-      }
-    }
-  }
-}
 /*f(x) int */
 static boolean function_xxx(long xd, long sd, long ed) //f(x)
 {
@@ -449,6 +410,5 @@ void loop(void)
 {
   getBTData_Plus();           //Bluetooth data acquisition
   bluetooth_mode();           //Bluetooth remote mode
-  line_teacking_mode();       //Line Teacking Mode
   obstacles_avoidance_mode(); //Obstacles Avoidance Mode
 }
